@@ -1,5 +1,6 @@
 import CommonButton from "@/components/button/commonButton";
 // import { createUser, signInUser, userSignOut } from "@/features/auth";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   StyleSheet,
@@ -10,6 +11,7 @@ import {
 } from "react-native";
 
 export default function LoginScreen() {
+  const navigation = useRouter();
   const [id, setId] = React.useState("");
   const [pwd, setPwd] = React.useState("");
 
@@ -24,13 +26,7 @@ export default function LoginScreen() {
     //   });
   };
   const onSignUp = () => {
-    // createUser(id, pwd)
-    //   .then((result) => {
-    //     console.log("result - ", result);
-    //   })
-    //   .catch((err) => {
-    //     console.log("error - ", err);
-    //   });
+    navigation.push("/signup");
   };
   const onSignOut = () => {
     // userSignOut()

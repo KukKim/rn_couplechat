@@ -12,9 +12,13 @@ export default function Index() {
   // const [login, setLogin] = useState(false);
 
   useEffect(() => {
-    getAuth().then(() => {
-      navigation.replace("/login");
-    });
+    getAuth()
+      .then(() => {
+        navigation.replace("/login");
+      })
+      .catch(() => {
+        console.log("error");
+      });
   }, []);
 
   return (
