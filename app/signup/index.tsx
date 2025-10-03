@@ -1,4 +1,5 @@
 import CommonButton from "@/components/button/commonButton";
+import WarningText from "@/components/text/warningText";
 import CommonTextInput from "@/components/textInput/commonTextInput";
 import { SignupStatus, signupValidation } from "@/features/auth";
 import React from "react";
@@ -31,6 +32,21 @@ export default function LoginScreen() {
     }
   };
 
+  const showWarningText = () => {
+    if (txtInputStatus === SignupStatus.EMAIL_EMPTY) {
+      return "Email Empty";
+    } else if (txtInputStatus === SignupStatus.EMAIL_INVALID) {
+      return "Email Invalid";
+    } else if (txtInputStatus === SignupStatus.PWD_EMPTY) {
+      return "Password Empty";
+    } else if (txtInputStatus === SignupStatus.PWD_DIFFER) {
+      return "Password Different";
+    } else if (txtInputStatus === SignupStatus.PWD_INVALID) {
+      return "Password Invalid";
+    }
+    return "";
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -56,7 +72,8 @@ export default function LoginScreen() {
           value={pwd}
           highlight={
             txtInputStatus === SignupStatus.PWD_EMPTY ||
-            txtInputStatus === SignupStatus.PWD_INVALID
+            txtInputStatus === SignupStatus.PWD_INVALID ||
+            txtInputStatus === SignupStatus.PWD_DIFFER
           }
         />
         <CommonTextInput
@@ -66,12 +83,14 @@ export default function LoginScreen() {
           value={checkPwd}
           highlight={
             txtInputStatus === SignupStatus.PWD_EMPTY ||
-            txtInputStatus === SignupStatus.PWD_INVALID
+            txtInputStatus === SignupStatus.PWD_INVALID ||
+            txtInputStatus === SignupStatus.PWD_DIFFER
           }
         />
         <CommonButton onPress={onSignUp}>
           <Text>SignUp</Text>
         </CommonButton>
+        <WarningText>{showWarningText()}</WarningText>
       </View>
       {/* <View>
         <TouchableOpacity style={styles.socialLoginBtn}>
