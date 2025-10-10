@@ -1,7 +1,7 @@
 type SignupParams = {
   email: string;
   pwd: string;
-  checkPwd: string;
+  checkPwd?: string;
 };
 
 export enum SignupStatus {
@@ -22,10 +22,6 @@ export function getAuth() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      // body: JSON.stringify({
-      //   firstParam: "yourValue",
-      //   secondParam: "yourOtherValue",
-      // }),
     })
       .then((res) => {
         console.log(res);
@@ -37,25 +33,35 @@ export function getAuth() {
   });
 }
 
-export function createUser() {
+export function createUser(input: SignupParams): Promise<any> {
   return new Promise((resolve, reject) => {
-    fetch("http://127.0.0.1:3000/user/create", {
+    fetch("http://127.0.0.1:3000/user/create/", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: "id",
-        pwd: "pwd",
+        id: input.email,
+        pwd: input.pwd,
       }),
     })
       .then((res) => {
-        console.log(res);
-        resolve(true);
+        return res.json();
+      })
+      .then((res) => {
+        resolve({
+          status: "success",
+        });
       })
       .catch((err) => {
-        reject(false);
+        return err.json();
+      })
+      .catch((err) => {
+        reject({
+          status: "fail",
+          reason: err,
+        });
       });
   });
 }

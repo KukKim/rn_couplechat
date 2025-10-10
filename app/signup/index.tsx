@@ -1,7 +1,7 @@
 import CommonButton from "@/components/button/commonButton";
 import WarningText from "@/components/text/warningText";
 import CommonTextInput from "@/components/textInput/commonTextInput";
-import { SignupStatus, signupValidation } from "@/features/auth";
+import { createUser, SignupStatus, signupValidation } from "@/features/auth";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -18,15 +18,19 @@ export default function LoginScreen() {
       pwd: pwd,
       checkPwd: checkPwd,
     });
-
+    console.log("newStatus - ", newStatus);
+    setTxtInputStatus(newStatus);
     if (newStatus === SignupStatus.AVAILABLE) {
-      // createUser(id, pwd)
-      //   .then((result) => {
-      //     console.log("result - ", result);
-      //   })
-      //   .catch((err) => {
-      //     console.log("error - ", err);
-      //   });
+      createUser({
+        email: id,
+        pwd: pwd,
+      })
+        .then((result) => {
+          console.log("result - ", result);
+        })
+        .catch((err) => {
+          console.log("error - ", err);
+        });
     } else {
       setTxtInputStatus(newStatus);
     }
@@ -58,6 +62,7 @@ export default function LoginScreen() {
       <View style={styles.loginContainer}>
         <CommonTextInput
           placeholder="Email"
+          autoCapitalize="none"
           onChangeText={setId}
           value={id}
           highlight={
