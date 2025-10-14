@@ -1,14 +1,9 @@
 import CommonButton from "@/components/button/commonButton";
-// import { createUser, signInUser, userSignOut } from "@/features/auth";
+import CommonTextInput from "@/components/textInput/commonTextInput";
+import { loginUser } from "@/features/auth";
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function LoginScreen() {
   const navigation = useRouter();
@@ -16,14 +11,13 @@ export default function LoginScreen() {
   const [pwd, setPwd] = React.useState("");
 
   const onSignIn = () => {
-    // signInUser(id, pwd)
-    //   .then((userCredential) => {
-    //     const user = userCredential.user;
-    //     console.log("Login user - ", user);
-    //   })
-    //   .catch((err) => {
-    //     console.log("error - ", err);
-    //   });
+    loginUser({ email: id, pwd: pwd })
+      .then((loginInfo) => {
+        console.log("loginInfo - ", loginInfo);
+      })
+      .catch((err) => {
+        console.log("error - ", err);
+      });
   };
   const onSignUp = () => {
     navigation.push("/signup");
@@ -47,22 +41,18 @@ export default function LoginScreen() {
         /> */}
       </View>
       <View style={styles.loginContainer}>
-        <View style={styles.txtInputContainer}>
-          <TextInput
-            style={styles.txtInput}
-            placeholder="Email"
-            onChangeText={setId}
-            value={id}
-          />
-        </View>
-        <View style={styles.txtInputContainer}>
-          <TextInput
-            placeholder="Password"
-            style={styles.txtInput}
-            onChangeText={setPwd}
-            value={pwd}
-          />
-        </View>
+        <CommonTextInput
+          placeholder="Email"
+          autoCapitalize="none"
+          onChangeText={setId}
+          value={id}
+        />
+        <CommonTextInput
+          secureTextEntry={true}
+          placeholder="Password"
+          onChangeText={setPwd}
+          value={pwd}
+        />
         <CommonButton onPress={onSignIn}>
           <Text>Login</Text>
         </CommonButton>

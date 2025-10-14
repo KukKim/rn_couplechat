@@ -1,3 +1,7 @@
+type LoginParams = {
+  email: string;
+  pwd: string;
+};
 type SignupParams = {
   email: string;
   pwd: string;
@@ -29,6 +33,34 @@ export function getAuth() {
       })
       .catch((err) => {
         reject(false);
+      });
+  });
+}
+
+export function loginUser(input: LoginParams): Promise<any> {
+  return new Promise((resolve, reject) => {
+    fetch("http://127.0.0.1:3000/user/login/", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: input.email,
+        pwd: input.pwd,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        return err.json();
+      })
+      .catch((err) => {
+        reject(err);
       });
   });
 }
